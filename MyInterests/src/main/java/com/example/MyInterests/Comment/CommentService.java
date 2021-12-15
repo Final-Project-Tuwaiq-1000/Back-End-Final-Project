@@ -31,4 +31,9 @@ public class CommentService {
             return ResponseEntity.badRequest().body("Not Saved");
         }
     }
+
+    public void deleteComment(String id){
+        Long comment_id = Long.parseLong(id);
+        commentRepository.deleteById(comment_id);
+    }
 }

@@ -1,7 +1,12 @@
 package com.example.MyInterests.User;
 
 
+import com.example.MyInterests.Post.Post;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
@@ -17,13 +22,18 @@ public class User {
     private String moreInfo ;
     private String personalImg;
 
-    public User(Long id, String userName, String password, String email, String moreInfo, String personalImg) {
+    @JsonIgnoreProperties("user")
+    @OneToMany(mappedBy = "user")
+    private List<Post> posts;
+
+    public User(Long id, String userName, String password, String email, String moreInfo, String personalImg, List<Post> posts) {
         this.id = id;
         this.userName = userName;
         this.password = password;
         this.email = email;
         this.moreInfo = moreInfo;
         this.personalImg = personalImg;
+        this.posts = posts;
     }
 
     public User() {
@@ -75,5 +85,13 @@ public class User {
 
     public void setPersonalImg(String personalImg) {
         this.personalImg = personalImg;
+    }
+
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
     }
 }

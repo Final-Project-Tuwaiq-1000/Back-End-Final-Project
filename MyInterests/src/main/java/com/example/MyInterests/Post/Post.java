@@ -2,6 +2,7 @@ package com.example.MyInterests.Post;
 
 import com.example.MyInterests.Comment.Comment;
 import com.example.MyInterests.User.User;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.lang.Nullable;
 
@@ -22,6 +23,7 @@ public class Post {
     @ManyToOne
     @Nullable
     @JoinColumn(name = "user_id")
+    @JsonIgnoreProperties("posts")
     @JsonProperty(access = JsonProperty.Access.READ_WRITE)
     private User user;
 

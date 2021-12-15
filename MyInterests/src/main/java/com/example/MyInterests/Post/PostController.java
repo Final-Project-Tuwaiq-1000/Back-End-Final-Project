@@ -30,7 +30,7 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createPost(@RequestBody Post post){
+    public ResponseEntity<?> createPost(@RequestBody Post post){
         return postService.createPost(post);
     }
 

@@ -21,15 +21,14 @@ public class PostService {
         return postRepository.findAll();
     }
 
-    public ResponseEntity<String> createPost(Post post){
+    public ResponseEntity<?> createPost(Post post){
         Long user_id = post.getUser().getId();
         User user = userRepository.getById(user_id);
         System.out.println(userRepository.getById(user_id).getEmail());
 
         if (user !=null){
             post.setUser(user);
-            postRepository.save(post);
-            return ResponseEntity.ok().body("Saved Successfully");
+            return ResponseEntity.ok().body(postRepository.save(post));
         }
         else {
             return ResponseEntity.badRequest().body("Not Saved");
