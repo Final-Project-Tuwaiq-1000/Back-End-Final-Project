@@ -39,4 +39,9 @@ public class PostController {
         postService.deletePost(id);
     }
 
+    @PutMapping("/{id}")
+    public void updatePost(@PathVariable String id, @RequestBody Post data){
+        postService.updatePost(id, data);
+    }
+
 }

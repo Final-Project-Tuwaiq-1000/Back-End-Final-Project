@@ -16,6 +16,7 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(length = 1000)
     private String caption;
     private String image;
 
@@ -27,7 +28,7 @@ public class Post {
     @JsonProperty(access = JsonProperty.Access.READ_WRITE)
     private User user;
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Comment> comments;
 
 

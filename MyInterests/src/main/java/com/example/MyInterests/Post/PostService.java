@@ -39,6 +39,16 @@ public class PostService {
         return postRepository.findById(post_id).orElse(null);
     }
 
+    public void updatePost(String id, Post data){
+        Long post_id = Long.parseLong(id);
+        Post post = postRepository.findById(post_id).orElse(null);
+        if ( post!=null){
+            post.setCaption(data.getCaption());
+            post.setImage(data.getImage());
+            postRepository.save(post);
+        }
+    }
+
     public void deletePost(String id){
         Long post_id = Long.parseLong(id);
         postRepository.deleteById(post_id);
