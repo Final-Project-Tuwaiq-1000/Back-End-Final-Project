@@ -31,14 +31,14 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createUser(@RequestBody User user){
-        return userService.createUser(user);
+    public ResponseEntity<?> createUser(@RequestBody SignUpForm signUpForm){
+        return userService.createUser(signUpForm);
     }
 
-    @PostMapping("/logIn")
-    public ResponseEntity<?> logIn(@RequestBody LoginForm loginForm){
-        return userService.login(loginForm);
-    }
+//    @PostMapping("/logIn")
+//    public ResponseEntity<?> logIn(@RequestBody LoginForm loginForm){
+//        return userService.login(loginForm);
+//    }
 
     @PutMapping("/{id}")
     public void  updateUser(@PathVariable String id, @RequestBody User data){
@@ -47,28 +47,54 @@ public class UserController {
 }
 
 
-class LoginForm{
-    private String email;
-    private String password;
+//class LoginForm{
+//    private String email;
+//    private String password;
+//
+//    public LoginForm(String email, String password) {
+//        this.email = email;
+//        this.password = password;
+//    }
+//
+//    public String getEmail() {
+//        return email;
+//    }
+//
+//    public void setEmail(String email) {
+//        this.email = email;
+//    }
+//
+//    public String getPassword() {
+//        return password;
+//    }
+//
+//    public void setPassword(String password) {
+//        this.password = password;
+//    }
+//}
 
-    public LoginForm(String email, String password) {
-        this.email = email;
-        this.password = password;
+class SignUpForm {
+    private User user ;
+    private Long role_id;
+
+    public SignUpForm(User user, Long role_id) {
+        this.user = user;
+        this.role_id = role_id;
     }
 
-    public String getEmail() {
-        return email;
+    public User getUser() {
+        return user;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public String getPassword() {
-        return password;
+    public Long getRole_id() {
+        return role_id;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setRole_id(Long role_id) {
+        this.role_id = role_id;
     }
 }

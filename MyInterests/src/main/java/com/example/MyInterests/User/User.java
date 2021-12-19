@@ -2,10 +2,12 @@ package com.example.MyInterests.User;
 
 
 import com.example.MyInterests.Post.Post;
+import com.example.MyInterests.Role.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -26,7 +28,10 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Post> posts;
 
-    public User(Long id, String userName, String password, String email, String moreInfo, String personalImg, List<Post> posts) {
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Role> roles = new ArrayList<>();
+
+    public User(Long id, String userName, String password, String email, String moreInfo, String personalImg, List<Post> posts, List<Role> roles) {
         this.id = id;
         this.userName = userName;
         this.password = password;
@@ -34,6 +39,7 @@ public class User {
         this.moreInfo = moreInfo;
         this.personalImg = personalImg;
         this.posts = posts;
+        this.roles = roles;
     }
 
     public User() {
@@ -93,5 +99,13 @@ public class User {
 
     public void setPosts(List<Post> posts) {
         this.posts = posts;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 }

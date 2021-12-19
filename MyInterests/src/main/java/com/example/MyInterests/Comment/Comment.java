@@ -1,6 +1,8 @@
 package com.example.MyInterests.Comment;
 
 import com.example.MyInterests.Post.Post;
+import com.example.MyInterests.User.User;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
@@ -20,10 +22,18 @@ public class Comment {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Post post;
 
-    public Comment(Long id, String comment, Post post) {
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonIgnoreProperties("posts")
+    @JsonProperty(access = JsonProperty.Access.READ_WRITE)
+    private User user;
+
+
+    public Comment(Long id, String comment, Post post, User user) {
         this.id = id;
         this.comment = comment;
         this.post = post;
+        this.user = user;
     }
 
     public Comment() {
@@ -51,5 +61,13 @@ public class Comment {
 
     public void setPost(Post post) {
         this.post = post;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
