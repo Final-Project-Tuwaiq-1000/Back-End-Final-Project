@@ -1,18 +1,46 @@
 package com.example.MyInterests.User;
 
+import com.example.MyInterests.Role.Role;
+import com.example.MyInterests.Role.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final RoleRepository roleRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, RoleRepository roleRepository) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.roleRepository = roleRepository;
+    }
+
+
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(email);
+        if (user == null){
+            throw new UsernameNotFoundException("User NOT Found in the DataBase");
+        }
+        Collection <SimpleGrantedAuthority> authorities = new ArrayList<>();
+        user.getRoles().forEach(role -> {
+            authorities.add(new SimpleGrantedAuthority(role.getName()));
+        });
+        return new org.springframework.security.core.userdetails.User(user.getEmail(),user.getPassword(),authorities);
     }
 
     public List<User> getUsers(){
@@ -24,7 +52,14 @@ public class UserService {
         return userRepository.findById(user_id).orElse(null);
     }
 
-    public ResponseEntity<?> createUser(User user){
+    public ResponseEntity<?> createUser(SignUpForm signUpForm){
+        User user = signUpForm.getUser();
+        Long role_id = signUpForm.getRole_id();
+        Role role = roleRepository.findById(role_id).orElse(null);
+
+        user.getRoles().add(role);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
         if (userRepository.findByEmail(user.getEmail()) == null){
 
             if (userRepository.findByUserName(user.getUserName()) == null){
@@ -40,22 +75,6 @@ public class UserService {
             return ResponseEntity.status(404).body("Email already exist");
         }
 
-    }
-
-    public ResponseEntity<?> login(LoginForm loginForm){
-        if (userRepository.findByEmail(loginForm.getEmail())!=null)
-        {
-            if (loginForm.getPassword().equals(userRepository.findByEmail(loginForm.getEmail()).getPassword()))
-            {
-                return ResponseEntity.ok().body(userRepository.findByEmail(loginForm.getEmail()));
-            }
-            else {
-                return ResponseEntity.status(404).body("Wrong Password");
-            }
-        }
-        else {
-            return ResponseEntity.status(404).body("User Not Found");
-        }
     }
 
 
