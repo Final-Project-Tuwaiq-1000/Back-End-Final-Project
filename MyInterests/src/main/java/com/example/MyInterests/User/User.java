@@ -3,7 +3,6 @@ package com.example.MyInterests.User;
 
 import com.example.MyInterests.Post.Post;
 import com.example.MyInterests.Role.Role;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;

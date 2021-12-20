@@ -77,22 +77,6 @@ public class UserService implements UserDetailsService {
 
     }
 
-//    public ResponseEntity<?> login(LoginForm loginForm){
-//        if (userRepository.findByEmail(loginForm.getEmail())!=null)
-//        {
-//            if (loginForm.getPassword().equals(userRepository.findByEmail(loginForm.getEmail()).getPassword()))
-//            {
-//                return ResponseEntity.ok().body(userRepository.findByEmail(loginForm.getEmail()));
-//            }
-//            else {
-//                return ResponseEntity.status(404).body("Wrong Password");
-//            }
-//        }
-//        else {
-//            return ResponseEntity.status(404).body("User Not Found");
-//        }
-//    }
-
 
     public void updateUser(String id, User data){
         Long user_id = Long.parseLong(id);
