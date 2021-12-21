@@ -41,6 +41,11 @@ public class User {
         this.roles = roles;
     }
 
+    public User( String email,String password) {
+        this.password = password;
+        this.email = email;
+    }
+
     public User() {
     }
 
