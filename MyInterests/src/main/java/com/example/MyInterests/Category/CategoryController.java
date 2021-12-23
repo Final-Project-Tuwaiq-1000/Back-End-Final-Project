@@ -18,6 +18,11 @@ public class CategoryController {
         return categoryService.getCategories();
     }
 
+    @GetMapping("/{id}")
+    public Category getCategory(@PathVariable String id){
+        return categoryService.getCategory(id);
+    }
+
     @PostMapping
     public Category saveCategory(@RequestBody Category category){
         return categoryService.saveCategory(category);
