@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "post")
+@Table(name = "posts")
 public class Post {
 
     @Id
@@ -33,7 +33,7 @@ public class Post {
     @Nullable
     @ManyToOne
     @JoinColumn(name = "categoryId")
-    @JsonIgnoreProperties("posts")
+    @JsonIgnoreProperties("postsC")
     @JsonProperty(access = JsonProperty.Access.READ_WRITE)
     private Category category;
 

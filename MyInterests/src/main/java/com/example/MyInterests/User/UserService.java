@@ -28,8 +28,6 @@ public class UserService implements UserDetailsService {
         this.roleRepository = roleRepository;
     }
 
-
-
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email);
