@@ -1,5 +1,7 @@
 package com.example.MyInterests.Post;
 
+import com.example.MyInterests.Category.Category;
+import com.example.MyInterests.Category.CategoryRepository;
 import com.example.MyInterests.User.User;
 import com.example.MyInterests.User.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,9 @@ public class PostService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private CategoryRepository categoryRepository;
+
     public List<Post> getPosts(){
         return postRepository.findAll();
     }
@@ -24,8 +29,9 @@ public class PostService {
     public ResponseEntity<?> createPost(Post post){
         Long user_id = post.getUser().getId();
         User user = userRepository.getById(user_id);
-        System.out.println(userRepository.getById(user_id).getEmail());
 
+        Long category_id = post.getCategory().getId();
+        Category category = categoryRepository.getById(category_id);
         if (user !=null){
             post.setUser(user);
             return ResponseEntity.ok().body(postRepository.save(post));

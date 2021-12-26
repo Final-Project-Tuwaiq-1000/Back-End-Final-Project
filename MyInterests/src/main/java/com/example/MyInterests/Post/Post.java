@@ -1,5 +1,6 @@
 package com.example.MyInterests.Post;
 
+import com.example.MyInterests.Category.Category;
 import com.example.MyInterests.Comment.Comment;
 import com.example.MyInterests.User.User;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -7,10 +8,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "post")
+@Table(name = "posts")
 public class Post {
 
     @Id
@@ -28,19 +30,37 @@ public class Post {
     @JsonProperty(access = JsonProperty.Access.READ_WRITE)
     private User user;
 
+    @Nullable
+    @ManyToOne
+    @JoinColumn(name = "categoryId")
+    @JsonIgnoreProperties("postsC")
+    @JsonProperty(access = JsonProperty.Access.READ_WRITE)
+    private Category category;
+
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Comment> comments;
 
 
-    public Post(Long id, String caption, String image, User user, List<Comment> comments) {
+    @Column(nullable = false)
+    private Date date;
+
+
+    public Post(Long id, String caption, String image, @Nullable User user, @Nullable Category category, List<Comment> comments, Date date) {
         this.id = id;
         this.caption = caption;
         this.image = image;
         this.user = user;
+        this.category = category;
         this.comments = comments;
+        this.date = date;
     }
 
     public Post() {
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        date = new Date();
     }
 
     public Long getId() {
@@ -77,5 +97,22 @@ public class Post {
 
     public List<Comment> getComments() {
         return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    @Nullable
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(@Nullable Category category) {
+        this.category = category;
+    }
+
+    public Date getTimestamp() {
+        return date;
     }
 }

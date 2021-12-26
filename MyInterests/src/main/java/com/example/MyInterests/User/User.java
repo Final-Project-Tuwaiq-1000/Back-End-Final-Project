@@ -3,6 +3,8 @@ package com.example.MyInterests.User;
 
 import com.example.MyInterests.Post.Post;
 import com.example.MyInterests.Role.Role;
+import com.example.MyInterests.UserCategory.UserCategory;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -10,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +32,13 @@ public class User {
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> roles = new ArrayList<>();
 
-    public User(Long id, String userName, String password, String email, String moreInfo, String personalImg, List<Post> posts, List<Role> roles) {
+    @OneToMany(mappedBy = "user")
+    @JsonIgnoreProperties("user")
+    @JsonIgnore
+    private List<UserCategory> categories;
+
+
+    public User(Long id, String userName, String password, String email, String moreInfo, String personalImg, List<Post> posts, List<Role> roles, List<UserCategory> categories) {
         this.id = id;
         this.userName = userName;
         this.password = password;
@@ -39,6 +47,12 @@ public class User {
         this.personalImg = personalImg;
         this.posts = posts;
         this.roles = roles;
+        this.categories = categories;
+    }
+
+    public User(String email, String password) {
+        this.password = password;
+        this.email = email;
     }
 
     public User() {
@@ -106,5 +120,13 @@ public class User {
 
     public void setRoles(List<Role> roles) {
         this.roles = roles;
+    }
+
+    public List<UserCategory> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<UserCategory> categories) {
+        this.categories = categories;
     }
 }
