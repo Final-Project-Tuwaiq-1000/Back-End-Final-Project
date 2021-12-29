@@ -58,6 +58,17 @@ public class Post {
     public Post() {
     }
 
+    public Post(String caption, String image) {
+        this.caption = caption;
+        this.image = image;
+    }
+
+    public Post(Long id, String caption, String image) {
+        this.id = id;
+        this.caption = caption;
+        this.image = image;
+    }
+
     @PrePersist
     protected void onCreate() {
         date = new Date();
