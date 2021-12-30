@@ -84,6 +84,7 @@ public class UserService implements UserDetailsService {
             user.setUserName(data.getUserName());
             user.setEmail(data.getEmail());
             user.setMoreInfo(data.getMoreInfo());
+            user.setPersonalImg(data.getPersonalImg());
             userRepository.save(user);
         }
     }
