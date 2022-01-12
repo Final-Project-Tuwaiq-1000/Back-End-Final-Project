@@ -5,6 +5,7 @@ import com.example.MyInterests.Comment.Comment;
 import com.example.MyInterests.User.User;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.sun.istack.NotNull;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
@@ -24,13 +25,13 @@ public class Post {
 
 
     @ManyToOne
-    @Nullable
+    @NotNull
     @JoinColumn(name = "user_id")
     @JsonIgnoreProperties("posts")
     @JsonProperty(access = JsonProperty.Access.READ_WRITE)
     private User user;
 
-    @Nullable
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "categoryId")
     @JsonIgnoreProperties("postsC")
@@ -45,7 +46,7 @@ public class Post {
     private Date date;
 
 
-    public Post(Long id, String caption, String image, @Nullable User user, @Nullable Category category, List<Comment> comments, Date date) {
+    public Post(Long id, String caption, String image, User user, Category category, List<Comment> comments, Date date) {
         this.id = id;
         this.caption = caption;
         this.image = image;
@@ -114,12 +115,11 @@ public class Post {
         this.comments = comments;
     }
 
-    @Nullable
     public Category getCategory() {
         return category;
     }
 
-    public void setCategory(@Nullable Category category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 
