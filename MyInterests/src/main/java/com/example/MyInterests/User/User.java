@@ -1,6 +1,7 @@
 package com.example.MyInterests.User;
 
 
+import com.example.MyInterests.Comment.Comment;
 import com.example.MyInterests.Post.Post;
 import com.example.MyInterests.Role.Role;
 import com.example.MyInterests.UserCategory.UserCategory;
@@ -26,19 +27,23 @@ public class User {
     private String personalImg;
 
     @JsonIgnoreProperties("user")
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Post> posts;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
     private List<Role> roles = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     @JsonIgnoreProperties("user")
     @JsonIgnore
     private List<UserCategory> categories;
 
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("comments")
+    private List<Comment> comments;
 
-    public User(Long id, String userName, String password, String email, String moreInfo, String personalImg, List<Post> posts, List<Role> roles, List<UserCategory> categories) {
+
+    public User(Long id, String userName, String password, String email, String moreInfo, String personalImg, List<Post> posts, List<Role> roles, List<UserCategory> categories, List<Comment> comments) {
         this.id = id;
         this.userName = userName;
         this.password = password;
@@ -48,6 +53,7 @@ public class User {
         this.posts = posts;
         this.roles = roles;
         this.categories = categories;
+        this.comments = comments;
     }
 
     public User(String email, String password) {
@@ -128,5 +134,13 @@ public class User {
 
     public void setCategories(List<UserCategory> categories) {
         this.categories = categories;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }

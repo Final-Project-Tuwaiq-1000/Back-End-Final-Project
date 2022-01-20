@@ -88,4 +88,9 @@ public class UserService implements UserDetailsService {
             userRepository.save(user);
         }
     }
+
+    public void deleteUser(String id) {
+        Long user_id = Long.parseLong(id);
+        userRepository.deleteById(user_id);
+    }
 }
