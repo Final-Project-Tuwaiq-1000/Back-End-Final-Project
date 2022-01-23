@@ -23,7 +23,7 @@ public class Comment {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Post post;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "user_id")
     @JsonIgnoreProperties({"posts","comments"})
     @JsonProperty(access = JsonProperty.Access.READ_WRITE)
